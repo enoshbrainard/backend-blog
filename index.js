@@ -16,7 +16,7 @@ dotEnv.config();
 // Enable CORS (you can specify origin if needed)
 const allowedOrigins = [
   "http://localhost:3000", // local dev
-  "https://your-frontend.vercel.app" // replace with your actual frontend Vercel URL
+  "https://full-stack-blog-project-zeta.vercel.app"// replace with your actual frontend Vercel URL
 ];
 
 app.use(
