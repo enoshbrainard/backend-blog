@@ -14,13 +14,17 @@ app.use(cookieParser());
 dotEnv.config();
 
 // Enable CORS (you can specify origin if needed)
+const allowedOrigins = [
+  "http://localhost:3000", // local dev
+  "https://your-frontend.vercel.app" // replace with your actual frontend Vercel URL
+];
+
 app.use(
   cors({
-    origin: "http://localhost:3000",
-    credentials: true,
+    origin: allowedOrigins,
+    credentials: true, // if you're using cookies
   })
 );
-
 // Serve static files like favicon.ico from "public" folder
 app.use(express.static(path.join(__dirname, "public")));
 
