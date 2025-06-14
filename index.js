@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const users = require("../MOCK_DATA.json");
+
 const mongoose = require("mongoose");
 const dotEnv = require("dotenv");
 const cookieParser = require("cookie-parser");
