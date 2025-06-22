@@ -39,7 +39,8 @@ const loginUser = async (req, res) => {
     });
     res.cookie("jwt", token, {
       httpOnly: true,
-      sameSite: "Strict",
+      secure: true,             
+  sameSite: "None",    
       maxAge: 60 * 60 * 1000,
     });
 
