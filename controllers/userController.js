@@ -26,29 +26,49 @@ const createUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: "user not found" });
+      return res.status(404).json({ message: "User not found" });
     }
-    const ismatch = await bcrypt.compare(password, user.password);
-    if (!ismatch) {
-      return res.status(401).json({ message: "invalid password" });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid password" });
     }
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+
+    const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "15m",
     });
-    res.cookie("jwt", token, {
+
+    const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+
+    
+    res.cookie("accesstoken", accessToken, {
+      httpOnly: false,
+      secure: true,
+      sameSite: "None",
+      maxAge: 15 * 60 * 1000, 
+    });
+
+   
+    res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      secure: true,             
-  sameSite: "None",    
-      maxAge: 60 * 60 * 1000,
+      secure: true,
+      sameSite: "None",
+      maxAge: 24 * 60 * 60 * 1000,
     });
 
     res.status(200).json({ message: "Login Successful" });
+
   } catch (e) {
+    console.error("Login error:", e);
     res.status(500).json({ message: "Server Error" });
   }
 };
+
 const logout = async (req, res) => {
   res.clearCookie("jwt", {
     httpOnly: true,
