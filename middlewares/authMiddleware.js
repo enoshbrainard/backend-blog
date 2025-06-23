@@ -3,7 +3,7 @@ const User = require("../models/User");
 
 const authMiddleware = async (req, res, next) => {
   try {
-    const token = req.cookies.jwt;
+    const token = req.cookies.accesstoken;
     if (!token) {
       return res.status(401).json({ message: "unAuthorized" });
     }
