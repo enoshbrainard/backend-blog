@@ -13,7 +13,5 @@ router.get("/logout", userController.logout);
 router.post("/createposts", postController.createPosts);
 router.get("/getposts", postController.getposts);
 router.put("/resetpassword", userController.resetpassword);
-router.get("/verify", authMiddleware, (req, res) => {
-  res.status(200).json({ message: "User authenticated", user: req.user });
-});
+router.get("/verify", userController.verify);
 module.exports = router;
